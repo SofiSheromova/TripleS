@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", "{BF2BCED0-B51D-4323-9F54-F8EE6995A617}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TowerDefense", "TowerDefense.csproj", "{9314631B-44E6-417B-B3EF-4E6037971E85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BF2BCED0-B51D-4323-9F54-F8EE6995A617}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF2BCED0-B51D-4323-9F54-F8EE6995A617}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BF2BCED0-B51D-4323-9F54-F8EE6995A617}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BF2BCED0-B51D-4323-9F54-F8EE6995A617}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9314631B-44E6-417B-B3EF-4E6037971E85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9314631B-44E6-417B-B3EF-4E6037971E85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9314631B-44E6-417B-B3EF-4E6037971E85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9314631B-44E6-417B-B3EF-4E6037971E85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {A5B611A5-FCB9-4722-996A-A6940FCCD773}
+		SolutionGuid = {409204C9-A705-4BAA-871D-0C1C6C3D0DCF}
 	EndGlobalSection
 EndGlobal
