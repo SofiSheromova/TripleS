@@ -9,10 +9,21 @@ namespace TowerDefense
     {
         public const int ElementSize = 32;
         public List<CreatureAnimation> Animations = new List<CreatureAnimation>();
+        public static double timeInSecond;
+        private double lastMonsterTime;
 
         public void BeginAct()
         {
             Animations.Clear();
+
+            //Порчу 
+            if (lastMonsterTime + 5 <= timeInSecond)
+            {
+                lastMonsterTime += 5;
+                Game.Map[0, 0] = new Monster();
+            }
+            //Испортила
+
             for (var x = 0; x < Game.MapWidth; x++)
             for (var y = 0; y < Game.MapHeight; y++)
             {
@@ -22,7 +33,7 @@ namespace TowerDefense
 
                 if (x + command.DeltaX < 0 || x + command.DeltaX >= Game.MapWidth || y + command.DeltaY < 0 ||
                     y + command.DeltaY >= Game.MapHeight)
-                    throw new Exception($"The object {creature.GetType()} falls out of the game field");
+                    continue; //вероятно это нужно будет обрабатывать, но пока обойдёмся
 
                 Animations.Add(
                     new CreatureAnimation
