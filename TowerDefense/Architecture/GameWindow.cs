@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace TowerDefense
 {
@@ -60,7 +61,8 @@ namespace TowerDefense
             foreach (var a in gameState.Animations)
                 e.Graphics.DrawImage(bitmaps[a.Creature.GetImageFileName()], a.Location);
             e.Graphics.ResetTransform();
-            e.Graphics.DrawString(Game.Cash.ToString(), new Font("Arial", 16), Brushes.Green, 0, 0);
+            var stringState = $"Cash: {Game.Cash}    Live: {Game.Tower.Live}     Time: {Math.Round(GameState.timeInSecond)}";
+            e.Graphics.DrawString(stringState, new Font("Arial", 16), Brushes.Green, 0, 0);
         }
 
         private void TimerTick(object sender, EventArgs args)
@@ -73,6 +75,7 @@ namespace TowerDefense
             tickCount++;
             if (tickCount == 8) tickCount = 0;
             Invalidate();
+            GameState.timeInSecond += 0.015;
         }
     }
 }
