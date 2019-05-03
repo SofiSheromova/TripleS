@@ -20,6 +20,7 @@ namespace TowerDefense
         public static void CreateMap()
         {
             Map = CreatureMapCreator.CreateMap(19, new Point(){X = 9, Y = 9});
+            Map[8, 8] = new Fortress(2, new Point() { X = 8, Y = 8 });//временное начельное расположение башни
         }
     }
 }
