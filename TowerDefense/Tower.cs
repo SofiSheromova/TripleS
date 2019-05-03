@@ -6,12 +6,9 @@ namespace TowerDefense
     {
         public int Live { get; set; }
 
-        public Point Coordinates {get;}
-
-        public Tower(int live, Point coordinates)
+        public Tower(int live = 5)
         {
             Live = live;
-            Coordinates = coordinates;
         }
 
         public string GetImageFileName()

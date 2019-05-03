@@ -2,15 +2,15 @@
 
 namespace TowerDefense
 {
-    public class Fortress : ICreature
+    public class Wall : ICreature
     {
         public int Live { get; set; }
-        public Point Coordinates { get; }//не знаю зачем
+        //public Point Coordinates { get; }//не знаю зачем
 
-        public Fortress(int live, Point coordinates)
+        public Wall(int live = 1)//, Point coordinates)
         {
             Live = live;
-            Coordinates = coordinates;
+            //Coordinates = coordinates;
         }
 
         public string GetImageFileName()

@@ -9,7 +9,8 @@ namespace TowerDefense
         [STAThread]
         private static void Main()
         {
-            Game.CreateMap();
+            //Game.CreateMap();
+            Game.CreateMapPreset();
             Application.Run(new GameWindow());
         }
     }

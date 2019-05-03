@@ -17,9 +17,9 @@ namespace TowerDefense
         public CreatureCommand Act(int x, int y)
         {
             var monster = new CreatureCommand();
-            if (!double.IsNaN(Game.Tower.Coordinates.X))
+            if (!double.IsNaN(Game.TowerPos.X))
             {
-                var shift = GetMonsterShift(new Point(x, y), Game.Tower.Coordinates);
+                var shift = GetMonsterShift(new Point(x, y), Game.TowerPos);
                 monster.DeltaX = shift.X;
                 monster.DeltaY = shift.Y;
             }
@@ -28,16 +28,14 @@ namespace TowerDefense
 
         private static Point GetMonsterShift(Point start, Point target) //тут конечно же алгоритм Дейкстры
         {
-            var shift = new Point();
-            shift.X = start.X < target.X ? 1 : 0;
-            shift.Y = start.Y < target.Y ? 1 : 0;
+            var shift = new Point {X = start.X < target.X ? 1 : 0, Y = start.Y < target.Y ? 1 : 0};
             return shift;
         }
         
 
         public bool DeadInConflict(ICreature conflictedObject)
         {
-            return conflictedObject is Fortress || conflictedObject is Tower || conflictedObject is Monster;
+            return conflictedObject is Wall || conflictedObject is Tower || conflictedObject is Monster;
         }
     }
 }

@@ -8,10 +8,39 @@ namespace TowerDefense
     {
         public static ICreature[,] CreateMap(int size, Point towerCoordinates, string separator = "\r\n")
         {
-            Game.Tower = new Tower(3, towerCoordinates);
+            Game.Tower = new Tower(3);
             var result = new ICreature[size, size];
             result[towerCoordinates.X, towerCoordinates.Y] = Game.Tower;
             return result;
+        }
+
+        public static ICreature[,] CreateMapPreset(string map, string separator = "\r\n")
+        {
+            var rows = map.Split(new[] { separator }, StringSplitOptions.RemoveEmptyEntries);
+            if (rows.Select(z => z.Length).Distinct().Count() != 1)
+                throw new Exception($"Wrong test map '{map}'");
+            var result = new ICreature[rows[0].Length, rows.Length];
+            for (var x = 0; x < rows[0].Length; x++)
+            for (var y = 0; y < rows.Length; y++)
+                result[x, y] = CreateCreatureBySymbol(rows[y][x]);
+            return result;
+        }
+
+        private static ICreature CreateCreatureBySymbol(char c)
+        {
+            switch (c)
+            {
+                case 'W':
+                    return new Wall();
+                case 'T':
+                    return new Tower();
+                case 'M':
+                    return new Monster();
+                case ' ':
+                    return null;
+                default:
+                    throw new Exception($"wrong character for ICreature {c}");
+            }
         }
     }
 }
