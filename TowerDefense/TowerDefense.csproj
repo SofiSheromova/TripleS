@@ -84,6 +84,9 @@
     <Compile Include="Monster.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wall.cs" />
+    <EmbeddedResource Include="Architecture\GameWindow.resx">
+      <DependentUpon>GameWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Architecture\MainMenuWindow.resx">
       <DependentUpon>MainMenuWindow.cs</DependentUpon>
     </EmbeddedResource>

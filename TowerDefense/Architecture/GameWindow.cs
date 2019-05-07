@@ -93,7 +93,7 @@ namespace TowerDefense
                 e.Graphics.DrawImage(bitmaps[a.Creature.GetImageFileName()], a.Location);
             e.Graphics.ResetTransform();
             var stringState = $"Cash: {Game.Cash}    Live: {Game.Tower.Live}     Time: {Math.Round(GameState.TimeInSecond)}";
-            e.Graphics.DrawString(stringState, new Font("Arial", 16), Brushes.Green, 0, 0);
+            e.Graphics.DrawString(stringState, new Font("Arial", 16), Brushes.MediumPurple, 0, 0);
         }
 
         private void TimerTick(object sender, EventArgs args)
@@ -108,6 +108,20 @@ namespace TowerDefense
                 tickCount = 0;
             Invalidate();
             GameState.TimeInSecond += 0.02;
+        }
+
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameWindow));
+            this.SuspendLayout();
+            // 
+            // GameWindow
+            // 
+            this.ClientSize = new System.Drawing.Size(282, 253);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "GameWindow";
+            this.ResumeLayout(false);
+
         }
     }
 }
