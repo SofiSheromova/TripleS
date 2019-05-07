@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
@@ -15,6 +16,7 @@ namespace TowerDefense
         private readonly HashSet<Keys> pressedKeys = new HashSet<Keys>();
         private int tickCount;
         public static Point ClickPosition;
+        public static Tuple<int, int> RightClickIndexes;
 
 
         public GameWindow(DirectoryInfo imagesDirectory = null)
@@ -56,9 +58,29 @@ namespace TowerDefense
         {
             if ((e.Button & MouseButtons.Left) != 0 && e.Clicks == 1)
             {
-                ClickPosition = e.Location;
-                //MessageBox.Show($" you double clicked, x: {ClickPosition.X}, y:{ClickPosition.Y}, tower: {Game.TowerPos}");
+                ClickPosition = e.Location;}
+
+            if ((e.Button & MouseButtons.Right) != 0 && e.Clicks == 1)
+            {
+                var click = GetXYIndex(e.Location);
+                if (Game.Map[click.Item1, click.Item2] == null && Game.Cash >= 20)
+                {
+                    Game.Cash -= 20;
+                    RightClickIndexes = click;
+                }
             }
+        }
+
+        public static Tuple<int, int> GetXYIndex(Point click)
+        {
+            var x = 1;
+            var y = 1;
+            while (click.X > x * GameState.ElementSize)
+                x++;
+            while (click.Y > y * GameState.ElementSize)
+                y++;
+            x--; y--;
+            return Tuple.Create(x, --y);
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -70,7 +92,7 @@ namespace TowerDefense
             foreach (var a in gameState.Animations)
                 e.Graphics.DrawImage(bitmaps[a.Creature.GetImageFileName()], a.Location);
             e.Graphics.ResetTransform();
-            var stringState = $"Cash: {Game.Cash}    Live: {Game.Tower.Live}     Time: {Math.Round(GameState.timeInSecond)}";
+            var stringState = $"Cash: {Game.Cash}    Live: {Game.Tower.Live}     Time: {Math.Round(GameState.TimeInSecond)}";
             e.Graphics.DrawString(stringState, new Font("Arial", 16), Brushes.Green, 0, 0);
         }
 
@@ -85,7 +107,7 @@ namespace TowerDefense
             if (tickCount == 8)
                 tickCount = 0;
             Invalidate();
-            GameState.timeInSecond += 0.02;
+            GameState.TimeInSecond += 0.02;
         }
     }
 }

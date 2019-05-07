@@ -11,20 +11,27 @@ namespace TowerDefense
     {
         public const int ElementSize = 32;
         public List<CreatureAnimation> Animations = new List<CreatureAnimation>();
-        public static double timeInSecond;
-        private const int monsterFrequency = 3;
-        private double lastMonsterTime = - monsterFrequency;
+        public static double TimeInSecond;
+        private const int MonsterFrequency = 1;
+        private double _lastMonsterTime = - MonsterFrequency;
 
         public void BeginAct()
         {
             Animations.Clear();
 
             //Порчу 
-            if (lastMonsterTime + monsterFrequency <= timeInSecond)
+            if (_lastMonsterTime + MonsterFrequency <= TimeInSecond)
             {
-                lastMonsterTime += monsterFrequency;
+                _lastMonsterTime += MonsterFrequency;
                 Game.Map[0, 0] = new Monster();
             }
+
+            if (GameWindow.RightClickIndexes != null)
+            {
+                Game.Map[GameWindow.RightClickIndexes.Item1, GameWindow.RightClickIndexes.Item2] = new Wall();
+                GameWindow.RightClickIndexes = null;
+            }
+
             //Испортила
 
             for (var x = 0; x < Game.MapWidth; x++)

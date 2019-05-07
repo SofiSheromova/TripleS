@@ -31,6 +31,8 @@ namespace TowerDefense
         {
             var shift = new Point {X = start.X < target.X ? 1 : 0, Y = start.Y < target.Y ? 1 : 0};
             shift = new Point{X = start.X > target.X ? -1 : shift.X, Y = start.Y > target.Y ? -1 : shift.Y};
+            if (shift.Y != 0)
+                shift.X = 0;
             return shift;
         }
         
