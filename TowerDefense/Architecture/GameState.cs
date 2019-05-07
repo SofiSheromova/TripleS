@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Windows.Forms;
 
 namespace TowerDefense
 {
@@ -10,16 +12,17 @@ namespace TowerDefense
         public const int ElementSize = 32;
         public List<CreatureAnimation> Animations = new List<CreatureAnimation>();
         public static double timeInSecond;
-        private double lastMonsterTime;
+        private const int monsterFrequency = 3;
+        private double lastMonsterTime = - monsterFrequency;
 
         public void BeginAct()
         {
             Animations.Clear();
 
             //Порчу 
-            if (lastMonsterTime + 5 <= timeInSecond)
+            if (lastMonsterTime + monsterFrequency <= timeInSecond)
             {
-                lastMonsterTime += 5;
+                lastMonsterTime += monsterFrequency;
                 Game.Map[0, 0] = new Monster();
             }
             //Испортила
@@ -35,7 +38,13 @@ namespace TowerDefense
                     y + command.DeltaY >= Game.MapHeight)
                     continue; //вероятно это нужно будет обрабатывать, но пока обойдёмся
 
-                Animations.Add(
+                if (creature is Monster && ClickOnMonster(Tuple.Create(x, y), GameWindow.ClickPosition))
+                    {
+                        GameWindow.ClickPosition = new Point(-32, -32);
+                        Game.Cash += 10;
+                    }
+                else
+                    Animations.Add(
                     new CreatureAnimation
                     {
                         Command = command,
@@ -43,24 +52,20 @@ namespace TowerDefense
                         Location = new Point(x * ElementSize, y * ElementSize),
                         TargetLogicalLocation = new Point(x + command.DeltaX, y + command.DeltaY)
                     });
-            }
+                }
 
             Animations = Animations.OrderByDescending(z => z.Creature.GetDrawingPriority()).ToList();
         }
-
-        public static Tuple<int, int> GetXYIndex(Point click)
+        
+        private static bool ClickOnMonster(Tuple<int, int> indexes, Point click)
         {
-            var x = 1;
-            var y = 1;
-            while (click.X > x * ElementSize)
-                x++;
-            while (click.Y > y * ElementSize)
-                y++;
-            x--; y--;
-            return Tuple.Create(x, --y);
+            return indexes.Item1 * ElementSize - ElementSize / 2 < click.X
+                   && click.X < (indexes.Item1 + 1) * ElementSize - ElementSize / 2
+                   && (indexes.Item2 + 1) * ElementSize < click.Y
+                   && click.Y < (indexes.Item2 + 2) * ElementSize;
         }
 
-        public void EndAct()
+    public void EndAct()
         {
             var creaturesPerLocation = GetCandidatesPerLocation();
             for (var x = 0; x < Game.MapWidth; x++)
@@ -76,9 +81,9 @@ namespace TowerDefense
             foreach (var rival in candidates)
                 if (rival != candidate && candidate.DeadInConflict(rival))
                     aliveCandidates.Remove(candidate);
-            if (aliveCandidates.Count > 1)
-                throw new Exception(
-                    $"Creatures {aliveCandidates[0].GetType().Name} and {aliveCandidates[1].GetType().Name} claimed the same map cell");
+            //if (aliveCandidates.Count > 1)
+            //    throw new Exception(
+            //        $"Creatures {aliveCandidates[0].GetType().Name} and {aliveCandidates[1].GetType().Name} claimed the same map cell");
 
             return aliveCandidates.FirstOrDefault();
         }
