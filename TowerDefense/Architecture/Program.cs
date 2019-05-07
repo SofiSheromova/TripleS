@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 using TowerDefense;
 
@@ -11,7 +12,7 @@ namespace TowerDefense
         {
             //Game.CreateMap();
             Game.CreateMapPreset();
-            Application.Run(new GameWindow());
+            Application.Run(new GameWindow(new DirectoryInfo("Images")));
         }
     }
 }

@@ -83,7 +83,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\Gold.png" />
+    <Content Include="Images\Tower.png" />
     <Content Include="Images\Monster.png" />
     <Content Include="Images\Terrain.png" />
   </ItemGroup>

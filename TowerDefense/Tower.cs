@@ -13,7 +13,7 @@ namespace TowerDefense
 
         public string GetImageFileName()
         {
-            return "Gold.png";
+            return "Tower.png";
         }
 
         public int GetDrawingPriority()
