@@ -1,4 +1,6 @@
-﻿namespace TowerDefense
+﻿using System.Drawing;
+
+namespace TowerDefense
 {
     public interface ICreature
     {

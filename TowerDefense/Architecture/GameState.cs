@@ -48,6 +48,18 @@ namespace TowerDefense
             Animations = Animations.OrderByDescending(z => z.Creature.GetDrawingPriority()).ToList();
         }
 
+        public static Tuple<int, int> GetXYIndex(Point click)
+        {
+            var x = 1;
+            var y = 1;
+            while (click.X > x * ElementSize)
+                x++;
+            while (click.Y > y * ElementSize)
+                y++;
+            x--; y--;
+            return Tuple.Create(x, --y);
+        }
+
         public void EndAct()
         {
             var creaturesPerLocation = GetCandidatesPerLocation();
@@ -86,6 +98,15 @@ namespace TowerDefense
             }
 
             return creatures;
+        }
+
+        public static void TryKillMonster(Tuple<int, int> indexes)
+        {
+            if (Game.Map[indexes.Item1, indexes.Item2] is Monster)
+            {
+                Game.Map[indexes.Item1, indexes.Item2] = null;
+                Game.Cash += 10;
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ namespace TowerDefense
         private readonly GameState gameState;
         private readonly HashSet<Keys> pressedKeys = new HashSet<Keys>();
         private int tickCount;
+        public static Tuple<int, int> ClickIndexes = Tuple.Create(-1, -1);
 
 
         public GameWindow(DirectoryInfo imagesDirectory = null)
@@ -27,7 +28,7 @@ namespace TowerDefense
                 imagesDirectory = new DirectoryInfo("Images");
             foreach (var e in imagesDirectory.GetFiles("*.png"))
                 bitmaps[e.Name] = (Bitmap) Image.FromFile(e.FullName);
-            var timer = new Timer {Interval = 15};
+            var timer = new Timer {Interval = 50};
             timer.Tick += TimerTick;
             timer.Start();
         }
@@ -51,6 +52,15 @@ namespace TowerDefense
             Game.KeyPressed = pressedKeys.Any() ? pressedKeys.Min() : Keys.None;
         }
 
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) != 0 && e.Clicks == 1)
+            {
+                ClickIndexes = GameState.GetXYIndex(e.Location);
+                MessageBox.Show($" you double clicked, x: {ClickIndexes.Item1}, y:{ClickIndexes.Item2}, tower: {Game.TowerPos}");
+            }
+        }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.TranslateTransform(0, GameState.ElementSize);
@@ -72,9 +82,10 @@ namespace TowerDefense
             if (tickCount == 7)
                 gameState.EndAct();
             tickCount++;
-            if (tickCount == 8) tickCount = 0;
+            if (tickCount == 8)
+                tickCount = 0;
             Invalidate();
-            GameState.timeInSecond += 0.015;
+            GameState.timeInSecond += 0.05;
         }
     }
 }

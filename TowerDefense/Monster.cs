@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Runtime.CompilerServices;
 
 namespace TowerDefense
 {
@@ -29,6 +30,7 @@ namespace TowerDefense
         private static Point GetMonsterShift(Point start, Point target) //тут конечно же алгоритм Дейкстры
         {
             var shift = new Point {X = start.X < target.X ? 1 : 0, Y = start.Y < target.Y ? 1 : 0};
+            shift = new Point{X = start.X > target.X ? -1 : shift.X, Y = start.Y > target.Y ? -1 : shift.Y};
             return shift;
         }
         
