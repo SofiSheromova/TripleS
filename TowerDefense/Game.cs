@@ -26,7 +26,7 @@ namespace TowerDefense
             Map[8, 8] = new Wall(2);
         }
 
-        public static void CreateMapPreset()
+        public static void CreateMapPreset(string testMap)
         {
             Map = CreatureMapCreator.CreateMapPreset(testMap);
             TowerPos = GetTowerPos();
@@ -43,13 +43,5 @@ namespace TowerDefense
             }
             return new Point(-1, -1);
         }
-
-        private const string testMap = @"
-                 
-                 
-        WW       
-        WT       
-                 
-                 ";
     }
 }

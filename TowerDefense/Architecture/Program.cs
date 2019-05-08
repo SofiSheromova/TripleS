@@ -12,8 +12,16 @@ namespace TowerDefense
         private static void Main()
         {
             //Game.CreateMap();
-            Game.CreateMapPreset();
+            Game.CreateMapPreset(testMap);
             Application.Run(new MainMenuWindow());
         }
+
+        private const string testMap = @"
+                 
+                 
+        WW       
+        WT       
+                 
+                 ";
     }
 }
