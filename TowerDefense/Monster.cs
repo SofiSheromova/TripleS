@@ -60,7 +60,10 @@ namespace TowerDefense
 
         protected override Point GetMonsterShift(Point start, Point target)
         {
-            return new Point(Dijkstra(start, target)[1].X - start.X, Dijkstra(start, target)[1].Y - start.Y);
+            var path = Dijkstra(start, target);
+            return path.Count > 1 ?
+                new Point(Dijkstra(start, target)[1].X - start.X, Dijkstra(start, target)[1].Y - start.Y)
+                : new Point(0, 0);
         }
 
         public static List<Point> Dijkstra(Point start, Point end)
@@ -79,8 +82,6 @@ namespace TowerDefense
                         toOpen = e;
                     }
                 }
-
-                //if (toOpen == null) return null;
                 if (toOpen == end) break;
 
                 foreach (var e in directions.Select(x => new Point(x.X + toOpen.X, x.Y + toOpen.Y)))
