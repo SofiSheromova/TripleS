@@ -49,8 +49,9 @@ namespace TowerDefense
 
                 if (creature is Monster && ClickOnMonster(Tuple.Create(x, y), GameWindow.ClickPosition))
                     {
-                        GameWindow.ClickPosition = new Point(-32, -32);
+                        
                         Game.Cash += ((Monster)creature).GetReward();
+                        Game.Map[x, y] = null;
                     }
                 else
                     Animations.Add(
@@ -62,6 +63,7 @@ namespace TowerDefense
                         TargetLogicalLocation = new Point(x + command.DeltaX, y + command.DeltaY)
                     });
                 }
+            GameWindow.ClickPosition = new Point(-32, -32);
 
             Animations = Animations.OrderByDescending(z => z.Creature.GetDrawingPriority()).ToList();
         }
