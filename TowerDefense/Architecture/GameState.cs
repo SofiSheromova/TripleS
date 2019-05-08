@@ -14,16 +14,18 @@ namespace TowerDefense
         public static double TimeInSecond;
         private const int MonsterFrequency = 1;
         private double _lastMonsterTime = - MonsterFrequency;
+        
 
         public void BeginAct()
         {
             Animations.Clear();
-
+            Random rand = new Random();
             //Порчу 
             if (_lastMonsterTime + MonsterFrequency <= TimeInSecond)
             {
                 _lastMonsterTime += MonsterFrequency;
-                Game.Map[0, 0] = new Monster();
+                var creature = rand.NextDouble() < 0.2 ? new SmartMonster() : new Monster();
+                Game.Map[0, 0] = creature;
             }
 
             if (GameWindow.RightClickIndexes != null)
@@ -48,7 +50,7 @@ namespace TowerDefense
                 if (creature is Monster && ClickOnMonster(Tuple.Create(x, y), GameWindow.ClickPosition))
                     {
                         GameWindow.ClickPosition = new Point(-32, -32);
-                        Game.Cash += 10;
+                        Game.Cash += ((Monster)creature).GetReward();
                     }
                 else
                     Animations.Add(
@@ -110,15 +112,6 @@ namespace TowerDefense
             }
 
             return creatures;
-        }
-
-        public static void TryKillMonster(Tuple<int, int> indexes)
-        {
-            if (Game.Map[indexes.Item1, indexes.Item2] is Monster)
-            {
-                Game.Map[indexes.Item1, indexes.Item2] = null;
-                Game.Cash += 10;
-            }
         }
     }
 }

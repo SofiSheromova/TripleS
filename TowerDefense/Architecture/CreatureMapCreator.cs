@@ -36,6 +36,8 @@ namespace TowerDefense
                     return new Tower();
                 case 'M':
                     return new Monster();
+                case 'S':
+                    return new SmartMonster();
                 case ' ':
                     return null;
                 default:

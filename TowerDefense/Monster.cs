@@ -13,17 +13,11 @@ namespace TowerDefense
 
     public class Monster : ICreature
     {
-        public string GetImageFileName()
-        {
-            return "Monster.png";
-        }
+        public virtual string GetImageFileName() => "Monster.png";
+        public virtual int GetReward() => 10;
+        public int GetDrawingPriority() =>  0;
 
-        public int GetDrawingPriority()
-        {
-            return 0;
-        }
-
-        private static readonly Point[] directions = new Point[]{
+        protected static readonly Point[] directions = new Point[]{
                 new Point(0, -1),
                 new Point(0, 1),
                 new Point(-1, 0),
@@ -44,17 +38,35 @@ namespace TowerDefense
             return monster;
         }
 
-        private static Point GetMonsterShift(Point start, Point target)
+        protected virtual Point GetMonsterShift(Point start, Point target)
+        {
+            var shift = new Point { X = start.X < target.X ? 1 : 0, Y = start.Y < target.Y ? 1 : 0 };
+            shift = new Point { X = start.X > target.X ? -1 : shift.X, Y = start.Y > target.Y ? -1 : shift.Y };
+            if (shift.Y != 0)
+                shift.X = 0;
+            return shift;
+        }
+        
+        public bool DeadInConflict(ICreature conflictedObject)
+        {
+            return conflictedObject is Wall || conflictedObject is Tower || conflictedObject is Monster;
+        }
+    }
+
+    public class SmartMonster : Monster
+    {
+        public override string GetImageFileName() => "Monster2.png";
+        public override int GetReward() => 20;
+
+        protected override Point GetMonsterShift(Point start, Point target)
         {
             return new Point(Dijkstra(start, target)[1].X - start.X, Dijkstra(start, target)[1].Y - start.Y);
         }
 
         public static List<Point> Dijkstra(Point start, Point end)
         {
-            var notVisited = new List<Point>();
-            notVisited.Add(start);
-            var track = new Dictionary<Point, DijkstraData>();
-            track[start] = new DijkstraData { Previous = new Point(-1, -1), Price = 0 };
+            var notVisited = new List<Point>{start};
+            var track = new Dictionary<Point, DijkstraData>{[start] = new DijkstraData {Previous = new Point(-1, -1), Price = 0}};
             while (true)
             {
                 var toOpen = default(Point);
@@ -68,7 +80,7 @@ namespace TowerDefense
                     }
                 }
 
-                if (toOpen == null) return null;
+                //if (toOpen == null) return null;
                 if (toOpen == end) break;
 
                 foreach (var e in directions.Select(x => new Point(x.X + toOpen.X, x.Y + toOpen.Y)))
@@ -92,11 +104,6 @@ namespace TowerDefense
             }
             result.Reverse();
             return result;
-        }
-        
-        public bool DeadInConflict(ICreature conflictedObject)
-        {
-            return conflictedObject is Wall || conflictedObject is Tower || conflictedObject is Monster;
         }
     }
 }
