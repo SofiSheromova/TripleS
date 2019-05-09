@@ -11,20 +11,10 @@ namespace TowerDefense
             Live = live;
         }
 
-        public string GetImageFileName()
-        {
-            return "Tower.png";
-        }
+        public string GetImageFileName() => "Tower.png";
+        public int GetDrawingPriority() => 1;
 
-        public int GetDrawingPriority()
-        {
-            return 1;
-        }
-
-        public CreatureCommand Act(int x, int y)
-        {
-            return new CreatureCommand();
-        }
+        public CreatureCommand Act(int x, int y) => new CreatureCommand();
 
         public bool DeadInConflict(ICreature conflictedObject)
         {

@@ -11,47 +11,51 @@ namespace TowerDefense
     {
         public const int ElementSize = 32;
         public List<CreatureAnimation> Animations = new List<CreatureAnimation>();
-        public static double TimeInSecond;
+        public double TimeInSecond;
         private const int MonsterFrequency = 1;
         private double _lastMonsterTime = - MonsterFrequency;
-        
+        public Game game;
+
+        public GameState(string level)
+        {
+            game = new Game(level);
+        }
 
         public void BeginAct()
         {
             Animations.Clear();
             Random rand = new Random();
-            //Порчу 
+
             if (_lastMonsterTime + MonsterFrequency <= TimeInSecond)
             {
                 _lastMonsterTime += MonsterFrequency;
-                var creature = rand.NextDouble() < 0.2 ? new SmartMonster() : new Monster();
-                Game.Map[0, 0] = creature;
+                var creature = rand.NextDouble() < 0.2 ? new SmartMonster(game) : new Monster(game);
+                game.Map[0, 0] = creature;
             }
 
             if (GameWindow.RightClickIndexes != null)
             {
-                Game.Map[GameWindow.RightClickIndexes.Item1, GameWindow.RightClickIndexes.Item2] = new Wall();
+                game.Map[GameWindow.RightClickIndexes.Item1, GameWindow.RightClickIndexes.Item2] = new Wall();
                 GameWindow.RightClickIndexes = null;
             }
 
             //Испортила
 
-            for (var x = 0; x < Game.MapWidth; x++)
-            for (var y = 0; y < Game.MapHeight; y++)
+            for (var x = 0; x < game.MapWidth; x++)
+            for (var y = 0; y < game.MapHeight; y++)
             {
-                var creature = Game.Map[x, y];
+                var creature = game.Map[x, y];
                 if (creature == null) continue;
                 var command = creature.Act(x, y);
 
-                if (x + command.DeltaX < 0 || x + command.DeltaX >= Game.MapWidth || y + command.DeltaY < 0 ||
-                    y + command.DeltaY >= Game.MapHeight)
+                if (x + command.DeltaX < 0 || x + command.DeltaX >= game.MapWidth || y + command.DeltaY < 0 ||
+                    y + command.DeltaY >= game.MapHeight)
                     continue; //вероятно это нужно будет обрабатывать, но пока обойдёмся
 
-                if (creature is Monster && ClickOnMonster(Tuple.Create(x, y), GameWindow.ClickPosition))
-                    {
-                        
-                        Game.Cash += ((Monster)creature).GetReward();
-                        Game.Map[x, y] = null;
+                if (creature is Monster monster && ClickOnMonster(Tuple.Create(x, y), GameWindow.ClickPosition))
+                    {                      
+                        game.Cash += monster.GetReward();
+                        game.Map[x, y] = null;
                     }
                 else
                     Animations.Add(
@@ -76,12 +80,12 @@ namespace TowerDefense
                    && click.Y < (indexes.Item2 + 2) * ElementSize;
         }
 
-    public void EndAct()
+        public void EndAct()
         {
             var creaturesPerLocation = GetCandidatesPerLocation();
-            for (var x = 0; x < Game.MapWidth; x++)
-            for (var y = 0; y < Game.MapHeight; y++)
-                Game.Map[x, y] = SelectWinnerCandidatePerLocation(creaturesPerLocation, x, y);
+            for (var x = 0; x < game.MapWidth; x++)
+            for (var y = 0; y < game.MapHeight; y++)
+                game.Map[x, y] = SelectWinnerCandidatePerLocation(creaturesPerLocation, x, y);
         }
 
         private static ICreature SelectWinnerCandidatePerLocation(List<ICreature>[,] creatures, int x, int y)
@@ -101,9 +105,9 @@ namespace TowerDefense
 
         private List<ICreature>[,] GetCandidatesPerLocation()
         {
-            var creatures = new List<ICreature>[Game.MapWidth, Game.MapHeight];
-            for (var x = 0; x < Game.MapWidth; x++)
-            for (var y = 0; y < Game.MapHeight; y++)
+            var creatures = new List<ICreature>[game.MapWidth, game.MapHeight];
+            for (var x = 0; x < game.MapWidth; x++)
+            for (var y = 0; y < game.MapHeight; y++)
                 creatures[x, y] = new List<ICreature>();
             foreach (var e in Animations)
             {

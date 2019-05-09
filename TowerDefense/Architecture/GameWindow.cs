@@ -3,28 +3,35 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using NUnit.Framework.Constraints;
+using TowerDefense.Architecture;
 
 namespace TowerDefense
 {
     public class GameWindow : Form
     {
         private readonly Dictionary<string, Bitmap> bitmaps = new Dictionary<string, Bitmap>();
-        private readonly GameState gameState;
+        public GameState gameState;
         private readonly HashSet<Keys> pressedKeys = new HashSet<Keys>();
         private int tickCount;
         public static Point ClickPosition;
         public static Tuple<int, int> RightClickIndexes;
 
 
-        public GameWindow(DirectoryInfo imagesDirectory = null)
+        public GameWindow(string level, DirectoryInfo imagesDirectory = null)
         {
-            gameState = new GameState();
+            gameState = new GameState(level);
+            pressedKeys = new HashSet<Keys>();
+            tickCount = 0;
+            bitmaps = new Dictionary<string, Bitmap>();
+
             ClientSize = new Size(
-                GameState.ElementSize * Game.MapWidth,
-                GameState.ElementSize * Game.MapHeight + GameState.ElementSize);
+                GameState.ElementSize * gameState.game.MapWidth,
+                GameState.ElementSize * gameState.game.MapHeight + GameState.ElementSize);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             if (imagesDirectory == null)
                 imagesDirectory = new DirectoryInfo("Images");
@@ -45,13 +52,13 @@ namespace TowerDefense
         protected override void OnKeyDown(KeyEventArgs e)
         {
             pressedKeys.Add(e.KeyCode);
-            Game.KeyPressed = e.KeyCode;
+            gameState.game.KeyPressed = e.KeyCode;
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
         {
             pressedKeys.Remove(e.KeyCode);
-            Game.KeyPressed = pressedKeys.Any() ? pressedKeys.Min() : Keys.None;
+            gameState.game.KeyPressed = pressedKeys.Any() ? pressedKeys.Min() : Keys.None;
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
@@ -63,9 +70,9 @@ namespace TowerDefense
             if ((e.Button & MouseButtons.Right) != 0 && e.Clicks == 1)
             {
                 var click = GetXYIndex(e.Location);
-                if (Game.Map[click.Item1, click.Item2] == null && Game.Cash >= 20)
+                if (gameState.game.Map[click.Item1, click.Item2] == null && gameState.game.Cash >= 20)
                 {
-                    Game.Cash -= 20;
+                    gameState.game.Cash -= 20;
                     RightClickIndexes = click;
                 }
             }
@@ -85,14 +92,20 @@ namespace TowerDefense
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            if (Game.IsOver)
+            {
+                Hide();
+                StopGame();
+            }
             e.Graphics.TranslateTransform(0, GameState.ElementSize);
             e.Graphics.FillRectangle(
-                Brushes.Black, 0, 0, GameState.ElementSize * Game.MapWidth,
-                GameState.ElementSize * Game.MapHeight);
+                Brushes.Black, 0, 0, GameState.ElementSize * gameState.game.MapWidth,
+                GameState.ElementSize * gameState.game.MapHeight);
             foreach (var a in gameState.Animations)
                 e.Graphics.DrawImage(bitmaps[a.Creature.GetImageFileName()], a.Location);
             e.Graphics.ResetTransform();
-            var stringState = $"Cash: {Game.Cash}    Live: {Game.Tower.Live}     Time: {Math.Round(GameState.TimeInSecond)}";
+            var stringState =
+                $"Cash: {gameState.game.Cash}    Live: {gameState.game.Tower.Live}     Time: {Math.Round(gameState.TimeInSecond)}";
             e.Graphics.DrawString(stringState, new Font("Arial", 16), Brushes.MediumPurple, 0, 0);
         }
 
@@ -107,7 +120,7 @@ namespace TowerDefense
             if (tickCount == 8)
                 tickCount = 0;
             Invalidate();
-            GameState.TimeInSecond += 0.02;
+            gameState.TimeInSecond += 0.02;
         }
 
         private void InitializeComponent()
@@ -121,7 +134,13 @@ namespace TowerDefense
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GameWindow";
             this.ResumeLayout(false);
+        }
 
+        private static void StopGame()
+        {
+            Game.IsOver = false;
+            Form gameOverWindow = new GameOverWindow();
+            gameOverWindow.Show();
         }
     }
 }

@@ -10,28 +10,25 @@ using System.Windows.Forms;
 
 namespace TowerDefense.Architecture
 {
-    public partial class MainMenuWindow : Form
+    public partial class GameOverWindow : Form
     {
-        public MainMenuWindow()
+        public GameOverWindow()
         {
             InitializeComponent();
         }
 
-        private void MainMenuWindow_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Start_Click(object sender, EventArgs e)
+        private void Restart_Click(object sender, EventArgs e)
         {
             Hide();
             Form gameWindow = new GameWindow(Levels.TestLevel);
             gameWindow.Show();
         }
 
-        private void Exit_Click(object sender, EventArgs e)
+        private void MainMenu_Click(object sender, EventArgs e)
         {
-            Close();
+            Hide();
+            Form mainMenu = new MainMenuWindow();
+            mainMenu.Show();
         }
     }
 }

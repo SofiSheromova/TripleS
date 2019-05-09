@@ -12,7 +12,7 @@ namespace TowerDefense
         private static void Main()
         {
             //Game.CreateMap();
-            Game.CreateMapPreset(testMap);
+            //Game.CreateMapPreset(testMap);
             Application.Run(new MainMenuWindow());
         }
 

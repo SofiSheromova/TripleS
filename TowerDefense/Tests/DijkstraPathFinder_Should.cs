@@ -45,16 +45,17 @@ WTW
         }
 
         public void PerformTest(string map, Point start, int expectedCosts)
-        { 
-            Game.CreateMapPreset(map);
-            var path = SmartMonster.Dijkstra(start, Game.TowerPos);
+        {
+            var game = new Game(map);
+            var smartMonster = new SmartMonster(game);
+            var path = smartMonster.Dijkstra(start, game.TowerPos);
             var cost = 0;
             foreach (var step in path)
             {
-                cost += Game.Map[step.X, step.Y]?.Live ?? 0;
+                cost += game.Map[step.X, step.Y]?.Live ?? 0;
             }
             Assert.AreEqual(expectedCosts, cost);
-            Assert.AreEqual(path.Last(), Game.TowerPos);
+            Assert.AreEqual(path.Last(), game.TowerPos);
         }
     }
 }
