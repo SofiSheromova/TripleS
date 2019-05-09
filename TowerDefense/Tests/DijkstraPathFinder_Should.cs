@@ -39,6 +39,22 @@ WTW
        WWTWW     
         WWW      
                  ", 7, 1, 6, TestName = "Need to go around")]
+
+        [TestCase(@"
+       WW        
+       WW        
+       WWW       
+       WWT       
+       WWW       
+        W        ", 0, 4, 6, TestName = "just map")]
+
+        [TestCase(@"
+    WWW          
+      WW         
+       WWW       
+      WWWT       
+      WW         
+     WW          ", 0, 4, 7, TestName = "minus dijkstra")]
         public void Find_Path_When_Paths_Exists(string map, int x, int y, int expectedCosts)
         {
             PerformTest(map, new Point(x, y), expectedCosts);
