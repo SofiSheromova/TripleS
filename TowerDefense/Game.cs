@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace TowerDefense
 {
-    public /*static*/ class Game
+    public class Game
     {
         public ICreature[,] Map;
         public Tower Tower;
@@ -20,21 +20,7 @@ namespace TowerDefense
 
         public Game(string level)
         {
-            CreateMapPreset(level);
-            Cash = 0;
-            IsOver = false;
-        }
-
-        // Оставила на случай, если захотим карту создавать не из готовых
-        public void CreateMap()
-        {
-            Map = CreatureMapCreator.CreateMap(this, 19, new Point(){X = 9, Y = 9});
-            Map[8, 8] = new Wall(2);
-        }
-
-        public void CreateMapPreset(string level)
-        {
-            Map = CreatureMapCreator.CreateMapPreset(this, level);
+            Map = CreatureMapCreator.CreateMap(this, level);
             TowerPos = GetTowerPos();
             Tower = (Tower)Map[TowerPos.X, TowerPos.Y];
         }
@@ -47,6 +33,7 @@ namespace TowerDefense
                 if (Map[x, y] is Tower)
                     return new Point(x, y);
             }
+
             return new Point(-1, -1);
         }
     }

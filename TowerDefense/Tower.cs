@@ -22,7 +22,7 @@ namespace TowerDefense
                 Live--;
 
             if (Live < 1)
-                Game.IsOver = true; //это пока не влияет вроде не на что...
+                Game.IsOver = true;
 
             return conflictedObject is Monster && Live < 1;
         }

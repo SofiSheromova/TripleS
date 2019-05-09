@@ -13,7 +13,7 @@ namespace TowerDefense
         public List<CreatureAnimation> Animations = new List<CreatureAnimation>();
         public double TimeInSecond;
         private const int MonsterFrequency = 1;
-        private double _lastMonsterTime = - MonsterFrequency;
+        private double _lastMonsterTime = -MonsterFrequency;
         public Game game;
 
         public GameState(string level)
@@ -53,25 +53,26 @@ namespace TowerDefense
                     continue; //вероятно это нужно будет обрабатывать, но пока обойдёмся
 
                 if (creature is Monster monster && ClickOnMonster(Tuple.Create(x, y), GameWindow.ClickPosition))
-                    {                      
-                        game.Cash += monster.GetReward();
-                        game.Map[x, y] = null;
-                    }
+                {
+                    game.Cash += monster.GetReward();
+                    game.Map[x, y] = null;
+                }
                 else
                     Animations.Add(
-                    new CreatureAnimation
-                    {
-                        Command = command,
-                        Creature = creature,
-                        Location = new Point(x * ElementSize, y * ElementSize),
-                        TargetLogicalLocation = new Point(x + command.DeltaX, y + command.DeltaY)
-                    });
-                }
+                        new CreatureAnimation
+                        {
+                            Command = command,
+                            Creature = creature,
+                            Location = new Point(x * ElementSize, y * ElementSize),
+                            TargetLogicalLocation = new Point(x + command.DeltaX, y + command.DeltaY)
+                        });
+            }
+
             GameWindow.ClickPosition = new Point(-32, -32);
 
             Animations = Animations.OrderByDescending(z => z.Creature.GetDrawingPriority()).ToList();
         }
-        
+
         private static bool ClickOnMonster(Tuple<int, int> indexes, Point click)
         {
             return indexes.Item1 * ElementSize - ElementSize / 2 < click.X

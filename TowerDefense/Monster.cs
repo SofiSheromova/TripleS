@@ -1,57 +1,48 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
 namespace TowerDefense
 {
-    class DijkstraData
-    {
-        public Point Previous { get; set; }
-        public double Price { get; set; }
-    }
-
     public class Monster : ICreature
     {
         public int Live { get; set; }
-        protected Game game;
+        protected Game Game;
 
         public Monster(Game game)
         {
-            this.game = game;
+            Game = game;
         }
 
         public virtual string GetImageFileName() => "Monster.png";
         public virtual int GetReward() => 10;
-        public int GetDrawingPriority() =>  0;
-
-        protected static readonly Point[] Directions = {
-                new Point(0, -1),
-                new Point(0, 1),
-                new Point(-1, 0),
-                new Point(1, 0)
-        };
+        public int GetDrawingPriority() => 0;
 
         public CreatureCommand Act(int x, int y)
         {
             var monster = new CreatureCommand();
-            if (!double.IsNaN(game.TowerPos.X))
+            if (!double.IsNaN(Game.TowerPos.X))
             {
-                var shift = GetMonsterShift(new Point(x, y), game.TowerPos);
+                var shift = GetMonsterShift(new Point(x, y), Game.TowerPos);
                 monster.DeltaX = shift.X;
                 monster.DeltaY = shift.Y;
             }
+
             return monster;
         }
 
         protected virtual Point GetMonsterShift(Point start, Point target)
         {
-            var shift = new Point { X = start.X < target.X ? 1 : 0, Y = start.Y < target.Y ? 1 : 0 };
-            shift = new Point { X = start.X > target.X ? -1 : shift.X, Y = start.Y > target.Y ? -1 : shift.Y };
-            if (shift.Y != 0)
-                shift.X = 0;
+            var shift = new Point
+            {
+                X = Math.Sign(target.X - start.X),
+                Y = Math.Sign(target.Y - start.Y)
+            };
+            if (shift.Y != 0) shift.X = 0;
             return shift;
         }
-        
+
         public bool DeadInConflict(ICreature conflictedObject)
         {
             return conflictedObject is Wall || conflictedObject is Tower || conflictedObject is Monster;
@@ -60,61 +51,18 @@ namespace TowerDefense
 
     public class SmartMonster : Monster
     {
+        public SmartMonster(Game game) : base(game)
+        {
+            Game = game;
+        }
+
         public override string GetImageFileName() => "Monster2.png";
         public override int GetReward() => 20;
 
         protected override Point GetMonsterShift(Point start, Point target)
         {
-            var path = Dijkstra(start, target);
-            return path.Count > 1 ?
-                new Point(Dijkstra(start, target)[1].X - start.X, Dijkstra(start, target)[1].Y - start.Y)
-                : new Point(0, 0);
-        }
-
-        public List<Point> Dijkstra(Point start, Point end)
-        {
-            var notVisited = new List<Point>{start};
-            var track = new Dictionary<Point, DijkstraData>{[start] = new DijkstraData {Previous = new Point(-1, -1), Price = 0}};
-            while (true)
-            {
-                var toOpen = default(Point);
-                var bestPrice = double.PositiveInfinity;
-                foreach (var e in notVisited)
-                {
-                    if (track.ContainsKey(e) && track[e].Price < bestPrice)
-                    {
-                        bestPrice = track[e].Price;
-                        toOpen = e;
-                    }
-                }
-                if (toOpen == end) break;
-
-                foreach (var e in Directions.Select(x => new Point(x.X + toOpen.X, x.Y + toOpen.Y)))
-                {
-                    if ((e.X < 0 || e.X >= game.MapWidth || e.Y < 0 || e.Y >= game.MapHeight))
-                        continue;
-                    var currentPrice = track[toOpen].Price + game.Map[e.X, e.Y]?.Live ?? 0;
-                    if (!track.ContainsKey(e) || track[e].Price > currentPrice)
-                    {
-                        track[e] = new DijkstraData { Previous = toOpen, Price = currentPrice };
-                        notVisited.Add(e);
-                    }
-                }
-                notVisited.Remove(toOpen);
-            }
-            var result = new List<Point>();
-            while (end.X != -1)
-            {
-                result.Add(end);
-                end = track[end].Previous;
-            }
-            result.Reverse();
-            return result;
-        }
-
-        public SmartMonster(Game game) : base(game)
-        {
-            this.game = game;
+            var path = DijkstraPathFinder.Dijkstra(start, target, Game);
+            return path.Count > 1 ? new Point(path[1].X - start.X, path[1].Y - start.Y) : new Point(0, 0);
         }
     }
 }

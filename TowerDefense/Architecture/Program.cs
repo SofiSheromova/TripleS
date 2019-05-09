@@ -11,17 +11,7 @@ namespace TowerDefense
         [STAThread]
         private static void Main()
         {
-            //Game.CreateMap();
-            //Game.CreateMapPreset(testMap);
             Application.Run(new MainMenuWindow());
         }
-
-        private const string testMap = @"
-                 
-                 
-        WW       
-        WT       
-                 
-                 ";
     }
 }

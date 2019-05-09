@@ -14,7 +14,7 @@ namespace TowerDefense
             return result;
         }
 
-        public static ICreature[,] CreateMapPreset(Game game, string map, string separator = "\r\n")
+        public static ICreature[,] CreateMap(Game game, string map, string separator = "\r\n")
         {
             var rows = map.Split(new[] { separator }, StringSplitOptions.RemoveEmptyEntries);
             if (rows.Select(z => z.Length).Distinct().Count() != 1)
