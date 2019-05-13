@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using TowerDefense.Architecture;
 
@@ -20,6 +23,7 @@ namespace TowerDefense
 
         public GameWindow(string level, DirectoryInfo imagesDirectory = null)
         {
+            InitializeComponent();
             gameState = new GameState(level);
             pressedKeys = new HashSet<Keys>();
             tickCount = 0;
@@ -127,7 +131,8 @@ namespace TowerDefense
             // GameWindow
             // 
             this.ClientSize = new System.Drawing.Size(282, 253);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Cursor = NativeMethods.LoadCustomCursor("Images/cursor.cur");
+            this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
             this.Name = "GameWindow";
             this.ResumeLayout(false);
         }
@@ -137,6 +142,22 @@ namespace TowerDefense
             Game.IsOver = false;
             Form gameOverWindow = new GameOverWindow();
             gameOverWindow.Show();
+        }
+
+        static class NativeMethods
+        {
+            public static Cursor LoadCustomCursor(string path)
+            {
+                IntPtr hCurs = LoadCursorFromFile(path);
+                if (hCurs == IntPtr.Zero) throw new Win32Exception();
+                var curs = new Cursor(hCurs);
+                // Note: force the cursor to own the handle so it gets released properly
+                var fi = typeof(Cursor).GetField("ownHandle", BindingFlags.NonPublic | BindingFlags.Instance);
+                fi.SetValue(curs, true);
+                return curs;
+            }
+            [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+            private static extern IntPtr LoadCursorFromFile(string path);
         }
     }
 }
