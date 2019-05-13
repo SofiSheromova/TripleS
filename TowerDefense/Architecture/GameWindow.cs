@@ -136,7 +136,7 @@ namespace TowerDefense
             // GameWindow
             // 
             this.ClientSize = new System.Drawing.Size(282, 253);
-            this.Cursor = NativeMethods.LoadCustomCursor("Images/cursor.cur");
+            this.Cursor = NativeMethods.LoadCustomCursor("Images/cursor2.cur");
             this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
             this.Name = "GameWindow";
             this.ResumeLayout(false);
