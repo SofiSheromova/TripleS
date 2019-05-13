@@ -32,6 +32,10 @@ namespace TowerDefense
             {
                 case 'W':
                     return new Wall();
+                case '2':
+                    return new Wall(2);
+                case '3':
+                    return new Wall(3);
                 case 'T':
                     return new Tower();
                 case 'M':
