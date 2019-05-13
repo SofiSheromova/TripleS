@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using NUnit.Framework.Constraints;
 using TowerDefense.Architecture;
 
 namespace TowerDefense
