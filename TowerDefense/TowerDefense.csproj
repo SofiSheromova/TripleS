@@ -139,7 +139,6 @@
     <Content Include="Images\Monster.png" />
     <Content Include="Images\Terrain.png" />
     <None Include="Resources\castle.gif" />
-    <None Include="Resources\6jke.gif" />
     <None Include="Resources\original.gif" />
   </ItemGroup>
   <ItemGroup>
