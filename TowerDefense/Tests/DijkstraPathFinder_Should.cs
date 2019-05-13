@@ -49,6 +49,21 @@ WTW
       WWWT       
       WW         
      WW          ", 0, 4, 7, TestName = "minus dijkstra")]
+        [TestCase(@"
+    WWW          
+      WW         
+        33       
+        2T       
+      WW         
+     W           ", 0, 4, 6, TestName = "different walls")]
+        [TestCase(@"
+    32           
+      2W         
+        33       
+       22T2      
+      33 2       
+     3           ", 0, 4, 8, TestName = "different walls 2")]
+
         public void Find_Path_When_Paths_Exists(string map, int x, int y, int expectedCosts)
         {
             PerformTest(map, new Point(x, y), expectedCosts);

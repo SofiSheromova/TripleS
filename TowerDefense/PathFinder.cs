@@ -34,9 +34,8 @@ namespace TowerDefense
                 }
 
                 if (toOpen == end) break;
-                //if (toOpen.X == -1) break;
 
-                foreach (var point in GetIncidentPoint(toOpen, game.MapWidth, game.MapHeight))
+                foreach (var point in GetIncidentPoint(toOpen, game.MapWidth, game.MapHeight, notVisited))
                 {
                     var currentPrice = track[toOpen].Price + game.Map[point.X, point.Y]?.Live ?? 0;
                     if (!track.ContainsKey(point) || track[point].Price > currentPrice)
@@ -58,14 +57,17 @@ namespace TowerDefense
             return result;
         }
 
-        private static IEnumerable<Point> GetIncidentPoint(Point point, int mapWidth, int mapHeight)
+        private static IEnumerable<Point> GetIncidentPoint(Point point, int mapWidth, int mapHeight, List<Point> notVisited)
         {
             Tuple<int, int>[] delta =
                 {Tuple.Create(0, 1), Tuple.Create(1, 0), Tuple.Create(-1, 0), Tuple.Create(0, -1)};
             foreach (var d in delta)
                 if (point.X + d.Item1 < mapWidth && point.X + d.Item1 >= 0 && point.Y + d.Item2 < mapHeight
                     && point.Y + d.Item2 >= 0)
-                    yield return new Point(point.X + d.Item1, point.Y + d.Item2);
+                {
+                   if (notVisited.Contains(new Point(point.X + d.Item1, point.Y + d.Item2)))
+                       yield return new Point(point.X + d.Item1, point.Y + d.Item2);
+                }
         }
 
         private static List<Point> GetPointMap(int width, int height)
