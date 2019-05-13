@@ -71,6 +71,11 @@ namespace TowerDefense
                     gameState.game.Cash -= 20;
                     RightClickIndexes = click;
                 }
+                else if (gameState.game.Map[click.Item1, click.Item2] is Wall && gameState.game.Map[click.Item1, click.Item2].Live < 3 && gameState.game.Cash >= 20)
+                {
+                    gameState.game.Map[click.Item1, click.Item2].Live++;
+                    RightClickIndexes = click;
+                }
             }
         }
 

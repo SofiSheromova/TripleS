@@ -33,7 +33,7 @@ namespace TowerDefense
                 game.Map[0, 0] = creature;
             }
 
-            if (GameWindow.RightClickIndexes != null)
+            if (GameWindow.RightClickIndexes != null && game.Map[GameWindow.RightClickIndexes.Item1, GameWindow.RightClickIndexes.Item2] == null)
             {
                 game.Map[GameWindow.RightClickIndexes.Item1, GameWindow.RightClickIndexes.Item2] = new Wall();
                 GameWindow.RightClickIndexes = null;
