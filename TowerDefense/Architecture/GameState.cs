@@ -29,7 +29,8 @@ namespace TowerDefense
             if (_lastMonsterTime + MonsterFrequency <= TimeInSecond)
             {
                 _lastMonsterTime += MonsterFrequency;
-                var creature = rand.NextDouble() < 0.2 ? new SmartMonster(game) : new Monster(game);
+                var chance = rand.NextDouble();
+                var creature = chance < 0.2 ? new SmartMonster(game) : chance < 0.4 ? new Creeper(game) : new Monster(game);
                 game.Map[0, 0] = creature;
             }
 
@@ -56,6 +57,22 @@ namespace TowerDefense
                 {
                     game.Cash += monster.GetReward();
                     game.Map[x, y] = null;
+                    if (creature is Creeper)
+                    {
+                        Tuple<int, int>[] delta =
+                                {Tuple.Create(0, 1), Tuple.Create(1, 0), Tuple.Create(-1, 0), Tuple.Create(0, -1)};
+                        foreach (var d in delta)
+                            if (x + d.Item1 < game.MapWidth && x + d.Item1 >= 0 && y + d.Item2 < game.MapHeight && y + d.Item2 >= 0
+                                && game.Map[x + d.Item1, y + d.Item2] != null)
+                                Animations.Add(
+                                    new CreatureAnimation
+                                    {
+                                        Command = new CreatureCommand(),
+                                        Creature = new Slime(game),
+                                        Location = new Point((x + d.Item1) * ElementSize, (y + d.Item2) * ElementSize),
+                                        TargetLogicalLocation = new Point(x + d.Item1, y + d.Item2)
+                                    });
+                    }
                 }
                 else
                     Animations.Add(

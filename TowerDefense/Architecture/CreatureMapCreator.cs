@@ -42,6 +42,8 @@ namespace TowerDefense
                     return new Monster(game);
                 case 'S':
                     return new SmartMonster(game);
+                case 'C':
+                    return new Creeper(game);
                 case ' ':
                     return null;
                 default:

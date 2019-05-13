@@ -18,7 +18,7 @@ namespace TowerDefense
 
         public bool DeadInConflict(ICreature conflictedObject)
         {
-            if (conflictedObject is Monster)
+            if (conflictedObject is Monster || conflictedObject is Slime)
                 Live--;
 
             if (Live < 1)

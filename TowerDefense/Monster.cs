@@ -65,4 +65,21 @@ namespace TowerDefense
             return path.Count > 1 ? new Point(path[1].X - start.X, path[1].Y - start.Y) : new Point(0, 0);
         }
     }
+
+    public class Creeper : Monster
+    {
+        public Creeper(Game game) : base(game)
+        {
+            Game = game;
+        }
+
+        public override string GetImageFileName() => "Monster3.png";
+        public override int GetReward() => 40;
+
+        protected override Point GetMonsterShift(Point start, Point target)
+        {
+            var path = DijkstraPathFinder.Dijkstra(start, target, Game);
+            return path.Count > 1 ? new Point(path[1].X - start.X, path[1].Y - start.Y) : new Point(0, 0);
+        }
+    }
 }
