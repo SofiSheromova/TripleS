@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Globalization;
+﻿using System.Drawing;
 using System.Linq;
-using TowerDefense.Architecture;
-using TowerDefense.Properties;
 using NUnit.Framework;
-using NUnit.Framework.Interfaces;
 
 namespace TowerDefense.Tests
 {
