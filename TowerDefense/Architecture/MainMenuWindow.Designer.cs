@@ -36,6 +36,7 @@ namespace TowerDefense.Architecture
             this.Exit = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.Title = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -46,7 +47,7 @@ namespace TowerDefense.Architecture
             this.Start.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.Start.Font = new System.Drawing.Font("NSimSun", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Start.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.Start.Location = new System.Drawing.Point(206, 162);
+            this.Start.Location = new System.Drawing.Point(131, 158);
             this.Start.Name = "Start";
             this.Start.Size = new System.Drawing.Size(120, 39);
             this.Start.TabIndex = 0;
@@ -60,7 +61,7 @@ namespace TowerDefense.Architecture
             this.Exit.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.Exit.Font = new System.Drawing.Font("NSimSun", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Exit.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.Exit.Location = new System.Drawing.Point(206, 207);
+            this.Exit.Location = new System.Drawing.Point(131, 248);
             this.Exit.Name = "Exit";
             this.Exit.Size = new System.Drawing.Size(120, 39);
             this.Exit.TabIndex = 1;
@@ -93,11 +94,26 @@ namespace TowerDefense.Architecture
             this.Title.Text = "We are sorry in advance";
             this.Title.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.LavenderBlush;
+            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button1.Font = new System.Drawing.Font("NSimSun", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.button1.Location = new System.Drawing.Point(131, 203);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(120, 39);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Levels";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
+            // 
             // MainMenuWindow
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackgroundImage = global::TowerDefense.Properties.Resources.original;
             this.ClientSize = new System.Drawing.Size(372, 453);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.Title);
             this.Controls.Add(this.Exit);
             this.Controls.Add(this.Start);
@@ -117,5 +133,6 @@ namespace TowerDefense.Architecture
         private System.Windows.Forms.Button Exit;
         private System.Windows.Forms.PictureBox pictureBox1;
         private Label Title;
+        private Button button1;
     }
 }

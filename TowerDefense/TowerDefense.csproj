@@ -81,6 +81,18 @@
     <Compile Include="Architecture\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Architecture\GameWonMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Architecture\GameWonMenu.Designer.cs">
+      <DependentUpon>GameWonMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Architecture\LevelSelectMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Architecture\LevelSelectMenu.Designer.cs">
+      <DependentUpon>LevelSelectMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Architecture\MainMenuWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,6 +123,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Architecture\GameWindow.resx">
       <DependentUpon>GameWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Architecture\GameWonMenu.resx">
+      <DependentUpon>GameWonMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Architecture\LevelSelectMenu.resx">
+      <DependentUpon>LevelSelectMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Architecture\MainMenuWindow.resx">
       <DependentUpon>MainMenuWindow.cs</DependentUpon>
