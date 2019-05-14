@@ -18,13 +18,16 @@ namespace TowerDefense
         public Keys KeyPressed;
         public int MapWidth => Map.GetLength(0);
         public int MapHeight => Map.GetLength(1);
+        public static int RemainingMonsters; 
 
-        public Game(string level)
+        public Game(Level level)
         {
-            Map = CreatureMapCreator.CreateMap(this, level);
+            Map = CreatureMapCreator.CreateMap(this, level.Map);
             TowerPos = GetTowerPos();
             Tower = (Tower)Map[TowerPos.X, TowerPos.Y];
             Generator = new ComplexMonsterGenerator(this);
+            RemainingMonsters = level.CountMonsters;
+
         }
 
         private Point GetTowerPos()

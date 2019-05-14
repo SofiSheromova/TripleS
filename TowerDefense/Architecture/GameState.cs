@@ -16,7 +16,7 @@ namespace TowerDefense
         private double _lastMonsterTime = -MonsterFrequency;
         public Game game;
 
-        public GameState(string level)
+        public GameState(Level level)
         {
             game = new Game(level);
         }
@@ -37,9 +37,7 @@ namespace TowerDefense
                 game.Map[GameWindow.RightClickIndexes.Item1, GameWindow.RightClickIndexes.Item2] = new Wall();
                 GameWindow.RightClickIndexes = null;
             }
-
-            //Испортила
-
+            
             for (var x = 0; x < game.MapWidth; x++)
             for (var y = 0; y < game.MapHeight; y++)
             {
@@ -49,11 +47,15 @@ namespace TowerDefense
 
                 if (x + command.DeltaX < 0 || x + command.DeltaX >= game.MapWidth || y + command.DeltaY < 0 ||
                     y + command.DeltaY >= game.MapHeight)
-                    continue; //вероятно это нужно будет обрабатывать, но пока обойдёмся
+                    continue;
 
                 if (creature is Monster monster && ClickOnMonster(Tuple.Create(x, y), GameWindow.ClickPosition))
                 {
-                    game.Cash += monster.GetReward();
+                    if (Game.RemainingMonsters > 0)
+                        Game.RemainingMonsters--;
+                    else
+                        Game.IsOver = true; // TODO это победа на самом деле
+                        game.Cash += monster.GetReward();
                     game.Map[x, y] = null;
                     if (creature is Creeper)
                     {
@@ -90,10 +92,10 @@ namespace TowerDefense
 
         private static bool ClickOnMonster(Tuple<int, int> indexes, Point click)
         {
-            return indexes.Item1 * ElementSize - ElementSize / 2 < click.X
-                   && click.X < (indexes.Item1 + 1) * ElementSize - ElementSize / 2
-                   && (indexes.Item2 + 1) * ElementSize < click.Y
-                   && click.Y < (indexes.Item2 + 2) * ElementSize;
+            return indexes.Item1 * ElementSize - 2 * ElementSize / 3 < click.X
+                   && click.X < (indexes.Item1 + 1) * ElementSize - ElementSize / 3
+                   && (indexes.Item2 + 1) * ElementSize - ElementSize / 3 < click.Y
+                   && click.Y < (indexes.Item2 + 2) * ElementSize + ElementSize / 3;
         }
 
         public void EndAct()

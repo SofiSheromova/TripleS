@@ -22,7 +22,7 @@ namespace TowerDefense
         public static Tuple<int, int> RightClickIndexes;
 
 
-        public GameWindow(string level, DirectoryInfo imagesDirectory = null)
+        public GameWindow(Level level, DirectoryInfo imagesDirectory = null)
         {
             InitializeComponent();
             gameState = new GameState(level);
@@ -121,8 +121,8 @@ namespace TowerDefense
                 e.Graphics.DrawImage(bitmaps[a.Creature.GetImageFileName()], a.Location);
             e.Graphics.ResetTransform();
             var stringState =
-                $"Cash: {gameState.game.Cash}    Live: {gameState.game.Tower.Live}     Time: {Math.Round(gameState.TimeInSecond)}";
-            e.Graphics.DrawString(stringState, new Font("Arial", 16), Brushes.MediumPurple, 0, 0);
+                $"Cash: {gameState.game.Cash}   Live: {gameState.game.Tower.Live}    Monsters: {Game.RemainingMonsters}";
+            e.Graphics.DrawString(stringState, new Font("Arial", 15), Brushes.MediumPurple, 0, 0);
         }
 
         private void TimerTick(object sender, EventArgs args)
