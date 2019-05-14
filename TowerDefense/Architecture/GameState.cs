@@ -24,14 +24,12 @@ namespace TowerDefense
         public void BeginAct()
         {
             Animations.Clear();
-            Random rand = new Random();
+            
 
             if (_lastMonsterTime + MonsterFrequency <= TimeInSecond)
             {
                 _lastMonsterTime += MonsterFrequency;
-                var chance = rand.NextDouble();
-                var creature = chance < 0.2 ? new SmartMonster(game) : chance < 0.4 ? new Creeper(game) : new Monster(game);
-                game.Map[0, 0] = creature;
+                game.Generator.Act();
             }
 
             if (GameWindow.RightClickIndexes != null && game.Map[GameWindow.RightClickIndexes.Item1, GameWindow.RightClickIndexes.Item2] == null)

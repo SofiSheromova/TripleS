@@ -90,6 +90,7 @@
     <Compile Include="Architecture\GameState.cs" />
     <Compile Include="Architecture\ICreature.cs" />
     <Compile Include="Architecture\Program.cs" />
+    <Compile Include="MonsterGenerator.cs" />
     <Compile Include="Slime.cs" />
     <Compile Include="PathFinder.cs" />
     <Compile Include="Levels.cs" />

@@ -9,6 +9,7 @@ namespace TowerDefense
     {
         public ICreature[,] Map;
         public Tower Tower;
+        public MonsterGenerator Generator;
         public Point TowerPos;
         public int Cash;
 
@@ -23,6 +24,7 @@ namespace TowerDefense
             Map = CreatureMapCreator.CreateMap(this, level);
             TowerPos = GetTowerPos();
             Tower = (Tower)Map[TowerPos.X, TowerPos.Y];
+            Generator = new ComplexMonsterGenerator(this);
         }
 
         private Point GetTowerPos()
