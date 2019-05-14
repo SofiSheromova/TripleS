@@ -7,7 +7,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9314631B-44E6-417B-B3EF-4E6037971E85}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>TowerDefense</RootNamespace>
     <AssemblyName>TowerDefense</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -50,6 +50,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework, Version=3.11.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
@@ -140,6 +143,7 @@
     <Content Include="Images\Tower.png" />
     <Content Include="Images\Monster.png" />
     <Content Include="Images\Terrain.png" />
+    <Content Include="Sounds\tilin.wav" />
     <None Include="Resources\castle.gif" />
     <None Include="Resources\original.gif" />
   </ItemGroup>

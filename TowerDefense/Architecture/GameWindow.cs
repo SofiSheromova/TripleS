@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -42,6 +43,12 @@ namespace TowerDefense
             timer.Start();
         }
 
+        private void playSimpleSound(string sound)
+        {
+            SoundPlayer simpleSound = new SoundPlayer(sound);
+            simpleSound.Play();
+        }
+
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -65,7 +72,8 @@ namespace TowerDefense
         {
             if ((e.Button & MouseButtons.Left) != 0 && e.Clicks == 1)
             {
-                ClickPosition = e.Location;}
+                ClickPosition = e.Location;
+            }
 
             if ((e.Button & MouseButtons.Right) != 0 && e.Clicks == 1)
             {
@@ -80,7 +88,10 @@ namespace TowerDefense
                     gameState.game.Map[click.Item1, click.Item2].Live++;
                     RightClickIndexes = click;
                 }
+                
             }
+
+            playSimpleSound(@"Sounds\tilin.wav");
         }
 
         public static Tuple<int, int> GetXYIndex(Point click)
