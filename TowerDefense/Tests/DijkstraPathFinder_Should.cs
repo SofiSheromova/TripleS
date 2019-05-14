@@ -71,7 +71,8 @@ WTW
 
         public void PerformTest(string map, Point start, int expectedCosts)
         {
-            var game = new Game(map);
+            Level level = new Level(100, map);
+            var game = new Game(level);
             var path = DijkstraPathFinder.Dijkstra(start, game.TowerPos, game);
             var cost = 0;
             foreach (var step in path)
