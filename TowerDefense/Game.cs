@@ -13,7 +13,7 @@ namespace TowerDefense
         public Point TowerPos;
         public int Cash;
 
-        public static bool IsOver;
+        public bool IsOver;
 
         public Keys KeyPressed;
         public int MapWidth => Map.GetLength(0);

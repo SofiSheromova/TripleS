@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Forms;
 
@@ -25,6 +26,7 @@ namespace TowerDefense
         {
             Animations.Clear();
             
+            if (game.IsOver || game.Tower.Live < 1) return;
 
             if (_lastMonsterTime + MonsterFrequency <= TimeInSecond)
             {
@@ -54,7 +56,7 @@ namespace TowerDefense
                     if (Game.RemainingMonsters > 1)
                         Game.RemainingMonsters--;
                     else
-                        Game.IsOver = true; // TODO это победа на самом деле
+                        game.IsOver = true; // TODO это победа на самом деле
                     game.Cash += monster.GetReward();
                     game.Map[x, y] = null;
                     if (creature is Creeper)
@@ -106,6 +108,8 @@ namespace TowerDefense
                 game.Map[x, y] = SelectWinnerCandidatePerLocation(creaturesPerLocation, x, y);
         }
 
+
+
         private static ICreature SelectWinnerCandidatePerLocation(List<ICreature>[,] creatures, int x, int y)
         {
             var candidates = creatures[x, y];
@@ -113,7 +117,10 @@ namespace TowerDefense
             foreach (var candidate in candidates)
             foreach (var rival in candidates)
                 if (rival != candidate && candidate.DeadInConflict(rival))
+                {
                     aliveCandidates.Remove(candidate);
+
+                }
             //if (aliveCandidates.Count > 1)
             //    throw new Exception(
             //        $"Creatures {aliveCandidates[0].GetType().Name} and {aliveCandidates[1].GetType().Name} claimed the same map cell");

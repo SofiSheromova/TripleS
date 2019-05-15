@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using AudioSwitcher.AudioApi.CoreAudio;
 using TowerDefense.Architecture;
 
 namespace TowerDefense
@@ -25,6 +27,8 @@ namespace TowerDefense
 
         public GameWindow(Level level, DirectoryInfo imagesDirectory = null)
         {
+            //CoreAudioDevice defaultPlaybackDevice = new CoreAudioController().DefaultPlaybackDevice;
+            //defaultPlaybackDevice.Volume = 80;
             InitializeComponent();
             gameState = new GameState(level);
             pressedKeys = new HashSet<Keys>();
@@ -109,15 +113,16 @@ namespace TowerDefense
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            if (Game.IsOver)
+            if (gameState.game.IsOver)
             {
-                Hide();
+                //Application.Exit();
+                Close();
                 GameWon();
             }
 
             if (gameState.game.Tower.Live < 1)
             {
-                Hide();
+                Close();
                 GameOver();
             }
 
@@ -135,6 +140,7 @@ namespace TowerDefense
 
         private void TimerTick(object sender, EventArgs args)
         {
+            if (gameState.game.IsOver || gameState.game.Tower.Live < 1) return;
             if (tickCount == 0) gameState.BeginAct();
             foreach (var e in gameState.Animations)
                 e.Location = new Point(e.Location.X + 4 * e.Command.DeltaX, e.Location.Y + 4 * e.Command.DeltaY);
@@ -161,16 +167,16 @@ namespace TowerDefense
             this.ResumeLayout(false);
         }
 
-        private static void GameOver()
+        private void GameOver()
         {
-            Game.IsOver = false;
+            gameState.game.IsOver = false;
             Form gameOverWindow = new GameOverWindow();
             gameOverWindow.Show();
         }
 
-        private static void GameWon()
+        private void GameWon()
         {
-            Game.IsOver = false;
+            gameState.game.IsOver = false;
             Form gameWonMenu = new GameWonMenu();
             gameWonMenu.Show();
         }
