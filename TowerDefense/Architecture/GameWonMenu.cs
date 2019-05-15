@@ -20,8 +20,8 @@ namespace TowerDefense.Architecture
         private void Restart_Click(object sender, EventArgs e)
         {
             Hide();
-            Form gameWindow = new GameWindow(Levels.TestLevel);
-            gameWindow.Show();
+            var levelMenu = new LevelSelectMenu();
+            levelMenu.Show();
         }
 
         private void MainMenu_Click(object sender, EventArgs e)

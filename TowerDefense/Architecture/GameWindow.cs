@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
+using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -111,8 +112,15 @@ namespace TowerDefense
             if (Game.IsOver)
             {
                 Hide();
-                StopGame();
+                GameWon();
             }
+
+            if (gameState.game.Tower.Live < 1)
+            {
+                Hide();
+                GameOver();
+            }
+
             e.Graphics.TranslateTransform(0, GameState.ElementSize);
             e.Graphics.FillRectangle(
                 Brushes.Black, 0, 0, GameState.ElementSize * gameState.game.MapWidth,
@@ -153,11 +161,18 @@ namespace TowerDefense
             this.ResumeLayout(false);
         }
 
-        private static void StopGame()
+        private static void GameOver()
         {
             Game.IsOver = false;
             Form gameOverWindow = new GameOverWindow();
             gameOverWindow.Show();
+        }
+
+        private static void GameWon()
+        {
+            Game.IsOver = false;
+            Form gameWonMenu = new GameWonMenu();
+            gameWonMenu.Show();
         }
 
         static class NativeMethods

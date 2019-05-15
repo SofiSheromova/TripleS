@@ -51,11 +51,11 @@ namespace TowerDefense
 
                 if (creature is Monster monster && ClickOnMonster(Tuple.Create(x, y), GameWindow.ClickPosition))
                 {
-                    if (Game.RemainingMonsters > 0)
+                    if (Game.RemainingMonsters > 1)
                         Game.RemainingMonsters--;
                     else
                         Game.IsOver = true; // TODO это победа на самом деле
-                        game.Cash += monster.GetReward();
+                    game.Cash += monster.GetReward();
                     game.Map[x, y] = null;
                     if (creature is Creeper)
                     {

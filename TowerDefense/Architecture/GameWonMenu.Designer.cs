@@ -62,7 +62,7 @@
             this.Restart.Name = "Restart";
             this.Restart.Size = new System.Drawing.Size(120, 39);
             this.Restart.TabIndex = 6;
-            this.Restart.Text = "Restart";
+            this.Restart.Text = "Levels";
             this.Restart.UseVisualStyleBackColor = false;
             this.Restart.Click += new System.EventHandler(this.Restart_Click);
             // 

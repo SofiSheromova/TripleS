@@ -21,8 +21,8 @@ namespace TowerDefense
             if (conflictedObject is Monster || conflictedObject is Slime)
                 Live--;
 
-            if (Live < 1)
-                Game.IsOver = true;
+            //if (Live < 1)
+            //    Game.IsOver = true;
 
             return conflictedObject is Monster && Live < 1;
         }

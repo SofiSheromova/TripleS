@@ -28,10 +28,36 @@
           
           ";
 
+        public const string Level2 = @"
+                          
+   WWWWW       WWWWW      
+                          
+                          
+          W               
+                   W W    
+               W     W    
+               W  T   W   
+               W          
+               W          
+               W          ";
+
+        public const string Level3 = @"
+  WW   WW  
+ W  W W  W 
+W    W    W
+W         W
+ W   T   W 
+  W     W  
+   W   W   
+    W W    
+     W     ";
+
     }
 
     class Levels
     {
-        public static readonly Level TestLevel = new Level(30, Maps.TestLevel, '4');
+        public static readonly Level TestLevel = new Level(5, Maps.TestLevel, 'e');
+        public static readonly Level Level2 = new Level(10, Maps.Level2, '2');
+        public static readonly Level Level3 = new Level(10, Maps.Level3, '4');
     }
 }
