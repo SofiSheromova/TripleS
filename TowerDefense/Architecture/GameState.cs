@@ -92,10 +92,10 @@ namespace TowerDefense
 
         private static bool ClickOnMonster(Tuple<int, int> indexes, Point click)
         {
-            return indexes.Item1 * ElementSize - 2 * ElementSize / 3 < click.X
-                   && click.X < (indexes.Item1 + 1) * ElementSize - ElementSize / 3
-                   && (indexes.Item2 + 1) * ElementSize - ElementSize / 3 < click.Y
-                   && click.Y < (indexes.Item2 + 2) * ElementSize + ElementSize / 3;
+            return (indexes.Item1 - 1) * ElementSize < click.X
+                   && click.X < (indexes.Item1 + 1) * ElementSize
+                   && indexes.Item2 * ElementSize  < click.Y
+                   && click.Y < (indexes.Item2 + 2) * ElementSize;
         }
 
         public void EndAct()
