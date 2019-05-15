@@ -116,11 +116,12 @@ namespace TowerDefense
             if (gameState.game.IsOver)
             {
                 //Application.Exit();
+                gameState.game.Tower.Live = 0;
                 Close();
                 GameWon();
             }
 
-            if (gameState.game.Tower.Live < 1)
+            else if (gameState.game.Tower.Live < 1)
             {
                 Close();
                 GameOver();
