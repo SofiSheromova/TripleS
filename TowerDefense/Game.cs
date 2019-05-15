@@ -25,7 +25,7 @@ namespace TowerDefense
             Map = CreatureMapCreator.CreateMap(this, level.Map);
             TowerPos = GetTowerPos();
             Tower = (Tower)Map[TowerPos.X, TowerPos.Y];
-            Generator = new ComplexMonsterGenerator(this);
+            Generator = CreatureMapCreator.ChooseGenerator(this, level.Generator);
             RemainingMonsters = level.CountMonsters;
 
         }

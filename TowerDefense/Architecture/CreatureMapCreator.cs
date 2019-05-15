@@ -14,6 +14,21 @@ namespace TowerDefense
             return result;
         }
 
+        public static MonsterGenerator ChooseGenerator(Game game, char c)
+        {
+            switch (c)
+            {
+                case 'e':
+                    return new MonsterGenerator(game);
+                case '2':
+                    return new TwoSideMonsterGenerator(game);
+                case '4':
+                    return new ComplexMonsterGenerator(game);
+                default:
+                    throw new Exception($"wrong char for level generator {c}");
+            }
+        }
+
         public static ICreature[,] CreateMap(Game game, string map, string separator = "\r\n")
         {
             var rows = map.Split(new[] { separator }, StringSplitOptions.RemoveEmptyEntries);

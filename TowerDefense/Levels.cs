@@ -4,13 +4,13 @@
     {
         public int CountMonsters;
         public string Map;
-        // TODO generator
+        public char Generator;
 
-        public Level(int count, string map)
+        public Level(int count, string map, char generator = 'e')
         {
             CountMonsters = count;
             Map = map;
-            // generator
+            Generator = generator;
         }
     }
 
@@ -32,6 +32,6 @@
 
     class Levels
     {
-        public static readonly Level TestLevel = new Level(30, Maps.TestLevel);
+        public static readonly Level TestLevel = new Level(30, Maps.TestLevel, '4');
     }
 }

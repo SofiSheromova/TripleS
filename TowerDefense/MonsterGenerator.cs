@@ -23,6 +23,25 @@ namespace TowerDefense
         }
     }
 
+    public class TwoSideMonsterGenerator : MonsterGenerator
+    {
+        public TwoSideMonsterGenerator(Game game) : base(game)
+        {
+            Game = game;
+        }
+
+        public override void Act()
+        {
+            Random rand = new Random();
+            var monsterChance = rand.NextDouble();
+            var creature = monsterChance < 0.2 ? new SmartMonster(Game) : monsterChance < 0.4 ? new Creeper(Game) : new Monster(Game);
+            var locationChance = rand.NextDouble();
+            var x = locationChance < 0.5 ? 0 : Game.MapWidth - 1;
+            var y = locationChance < 0.5 ? 0 : Game.MapHeight - 1;
+            Game.Map[x, y] = creature;
+        }
+    }
+
     public class ComplexMonsterGenerator : MonsterGenerator
     {
         public ComplexMonsterGenerator(Game game) : base(game)
