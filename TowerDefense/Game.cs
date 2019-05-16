@@ -18,7 +18,7 @@ namespace TowerDefense
         public Keys KeyPressed;
         public int MapWidth => Map.GetLength(0);
         public int MapHeight => Map.GetLength(1);
-        public static int RemainingMonsters; 
+        public int RemainingMonsters; 
 
         public Game(Level level)
         {

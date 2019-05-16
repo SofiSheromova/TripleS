@@ -134,7 +134,7 @@ namespace TowerDefense
                 e.Graphics.DrawImage(bitmaps[a.Creature.GetImageFileName()], a.Location);
             e.Graphics.ResetTransform();
             var stringState =
-                $"Cash: {gameState.game.Cash}   Live: {gameState.game.Tower.Live}    Monsters: {Game.RemainingMonsters}";
+                $"Cash: {gameState.game.Cash}   Live: {gameState.game.Tower.Live}    Monsters: {gameState.game.RemainingMonsters}";
             e.Graphics.DrawString(stringState, new Font("Arial", 15), Brushes.MediumPurple, 0, 0);
         }
 

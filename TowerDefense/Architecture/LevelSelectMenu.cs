@@ -21,21 +21,21 @@ namespace TowerDefense.Architecture
         private void Start_Click(object sender, EventArgs e)
         {
             Hide();
-            Form gameWindow = new GameWindow(Levels.TestLevel);
+            Form gameWindow = new GameWindow(Levels.TestLevel());
             gameWindow.Show();
         }
 
         private void Button1_Click(object sender, EventArgs e)
         {
             Hide();
-            Form gameWindow = new GameWindow(Levels.Level2);
+            Form gameWindow = new GameWindow(Levels.Level2());
             gameWindow.Show();
         }
 
         private void Button2_Click(object sender, EventArgs e)
         {
             Hide();
-            Form gameWindow = new GameWindow(Levels.Level3);
+            Form gameWindow = new GameWindow(Levels.Level3());
             gameWindow.Show();
         }
 

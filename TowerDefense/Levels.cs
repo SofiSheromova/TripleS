@@ -56,8 +56,8 @@ W         W
 
     class Levels
     {
-        public static readonly Level TestLevel = new Level(5, Maps.TestLevel, 'e');
-        public static readonly Level Level2 = new Level(10, Maps.Level2, '2');
-        public static readonly Level Level3 = new Level(10, Maps.Level3, '4');
+        public static Level TestLevel() => new Level(5, Maps.TestLevel, 'e');
+        public static Level Level2() => new Level(10, Maps.Level2, '2');
+        public static Level Level3() => new Level(10, Maps.Level3, '4');
     }
 }

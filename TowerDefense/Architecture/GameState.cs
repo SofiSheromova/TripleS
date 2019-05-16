@@ -53,8 +53,8 @@ namespace TowerDefense
 
                 if (creature is Monster monster && ClickOnMonster(Tuple.Create(x, y), GameWindow.ClickPosition))
                 {
-                    if (Game.RemainingMonsters > 1)
-                        Game.RemainingMonsters--;
+                    if (game.RemainingMonsters > 1)
+                        game.RemainingMonsters--;
                     else
                         game.IsOver = true; // TODO это победа на самом деле
                     game.Cash += monster.GetReward();
@@ -117,10 +117,8 @@ namespace TowerDefense
             foreach (var candidate in candidates)
             foreach (var rival in candidates)
                 if (rival != candidate && candidate.DeadInConflict(rival))
-                {
                     aliveCandidates.Remove(candidate);
 
-                }
             //if (aliveCandidates.Count > 1)
             //    throw new Exception(
             //        $"Creatures {aliveCandidates[0].GetType().Name} and {aliveCandidates[1].GetType().Name} claimed the same map cell");
